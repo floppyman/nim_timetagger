@@ -1,5 +1,5 @@
+import std/httpclient
 import base
-import yahttp
 import json
 
 # TYPES ----------------------------------------------------------
@@ -67,7 +67,7 @@ proc toPutResultRaw(node: JsonNode): PutResultRaw =
 
 proc Get*(rep: var RecordEndpoint, startTime: int64, stopTime: int64): GetResult =
   var res = rep.Helper.DoGet("/records?timerange=" & $startTime & "-" & $stopTime)
-  var ro = toRecordObjectSeq(res.Res.json())
+  var ro = toRecordObjectSeq(parseJson(res.Res.body()))
   return GetResult(
     Success: res.Success,
     Error: res.Error,
@@ -77,7 +77,7 @@ proc Get*(rep: var RecordEndpoint, startTime: int64, stopTime: int64): GetResult
 
 proc Put*(rep: var RecordEndpoint, items: seq[RecordObject]): PutResult =
   var res = rep.Helper.DoPut("/records", "")
-  var ro = toPutResultRaw(res.Res.json())
+  var ro = toPutResultRaw(parseJson(res.Res.body()))
   return PutResult(
     Success: res.Success,
     Error: res.Error,
