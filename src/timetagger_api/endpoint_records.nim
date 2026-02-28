@@ -1,4 +1,5 @@
 import std/httpclient
+import std/math
 import base
 import json
 
@@ -28,7 +29,7 @@ type PutResult* = object of PutResultRaw
 
 type RecordEndpoint* = object
   Helper*: BaseHelper
-  Get*: proc(startTime: int64, stopTime: int64): GetResult
+  Get*: proc(startTime: float, stopTime: float): GetResult
   Put*: proc(items: seq[RecordObject]): PutResult
 
 # ----------------------------------------------------------------
@@ -65,8 +66,8 @@ proc toPutResultRaw(node: JsonNode): PutResultRaw =
 # ----------------------------------------------------------------
 # PUBLIC PROCS ---------------------------------------------------
 
-proc Get*(rep: var RecordEndpoint, startTime: int64, stopTime: int64): GetResult =
-  var res = rep.Helper.DoGet("/records?timerange=" & $startTime & "-" & $stopTime)
+proc Get*(rep: var RecordEndpoint, startTime: float, stopTime: float): GetResult =
+  var res = rep.Helper.DoGet("/records?timerange=" & $round(startTime, 0) & "-" & $round(stopTime, 0))
   var ro = toRecordObjectSeq(parseJson(res.Res.body()))
   return GetResult(
     Success: res.Success,
