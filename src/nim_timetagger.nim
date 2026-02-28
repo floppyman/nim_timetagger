@@ -1,4 +1,4 @@
-import timetagger_api/api_client as api
+import timetagger_api/api_client
 
 # TYPES ----------------------------------------------------------
 
@@ -6,14 +6,15 @@ import timetagger_api/api_client as api
 # PROCS ----------------------------------------------------------
 
 proc NewClient*(url: string, token: string): TimeTaggerApiClient =
-  return api.New(TimeTaggerApiOptions(Url: url, Token: token))
+  return New(TimeTaggerApiOptions(Url: url, Token: token))
 
 # ----------------------------------------------------------------
 # EXAMPLE
 
+# import nim_timetagger as ntt
 # import timetagger_api/endpoint_records as apiRec
 
-# var x = NewClient("", "")
+# var x = ntt.NewClient("", "")
 
 # var g = x.Records.Get(0, 0)
 # echo g.Success

@@ -19,7 +19,8 @@ type BaseHelper* = object
 proc DoGet*(b: var BaseHelper, urlPath: string): RequestResult =
   var res = get(
     urlPath,
-    headers = {"Content-Type": "application/json", "authtoken": b.Token}
+    headers = {"Content-Type": "application/json", "authtoken": b.Token},
+    ignoreSsl = true
   )
 
   if res.ok():
@@ -40,7 +41,8 @@ proc DoPut*(b: var BaseHelper, urlPath: string, body: string): RequestResult =
   var res = put(
     urlPath,
     headers = {"authtoken": b.Token},
-    body = body
+    body = body,
+    ignoreSsl = true
   )
 
   if res.ok():
