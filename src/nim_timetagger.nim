@@ -1,5 +1,4 @@
 import timetagger_api/api_client as api
-import timetagger_api/endpoint_records as apiRec
 
 # TYPES ----------------------------------------------------------
 
@@ -11,6 +10,8 @@ proc NewClient*(url: string, token: string): TimeTaggerApiClient =
 
 # ----------------------------------------------------------------
 # EXAMPLE
+
+# import timetagger_api/endpoint_records as apiRec
 
 # var x = NewClient("", "")
 
