@@ -13,7 +13,7 @@ type TimeTaggerApiClient* = object
 type TimeTaggerApiOptions* = object
   Url*: string
   Token*: string
-  Timeout*: int = -1
+  Timeout*: int = 20
 
 # ----------------------------------------------------------------
 # PROCS ----------------------------------------------------------
