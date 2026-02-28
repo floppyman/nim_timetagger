@@ -1,7 +1,23 @@
-# This is just an example to get you started. A typical library package
-# exports the main API in this file. Note that you cannot rename this file
-# but you can remove it if you wish.
+import timetagger_api/api_client as api
+import timetagger_api/endpoint_records as apiRec
 
-proc add*(x, y: int): int =
-  ## Adds two numbers together.
-  return x + y
+# TYPES ----------------------------------------------------------
+
+# ----------------------------------------------------------------
+# PROCS ----------------------------------------------------------
+
+proc NewClient*(url: string, token: string): TimeTaggerApiClient =
+  return api.New(TimeTaggerApiOptions(Url: url, Token: token))
+
+# ----------------------------------------------------------------
+# EXAMPLE
+
+# var x = NewClient("", "")
+
+# var g = x.Records.Get(0, 0)
+# echo g.Success
+
+# var p = x.Records.Put(@[apiRec.RecordObject(Key: "")])
+# echo p.Success
+
+# ----------------------------------------------------------------
