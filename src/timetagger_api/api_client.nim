@@ -13,12 +13,13 @@ type TimeTaggerApiClient* = object
 type TimeTaggerApiOptions* = object
   Url*: string
   Token*: string
+  Timeout*: int = -1
 
 # ----------------------------------------------------------------
 # PROCS ----------------------------------------------------------
 
 proc New*(options: TimeTaggerApiOptions): TimeTaggerApiClient =
-  var helper = BaseHelper(Url: options.Url, Token: options.Token)
+  var helper = BaseHelper(Url: options.Url, Token: options.Token, Timeout: options.Timeout)
   return TimeTaggerApiClient(
     Records: epRec.RecordEndpoint(Helper: helper),
     Settings: epSet.SettingEndpoint(Helper: helper),

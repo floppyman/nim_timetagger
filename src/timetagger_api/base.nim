@@ -10,6 +10,7 @@ type RequestResult* = object
 type BaseHelper* = object
   Url*: string
   Token*: string
+  Timeout*: int
   DoGet*: proc(urlPath: string): RequestResult
   DoPut*: proc(urlPath: string, body: string): RequestResult
 
@@ -20,7 +21,9 @@ proc DoGet*(b: var BaseHelper, urlPath: string): RequestResult =
   var res = get(
     urlPath,
     headers = {"Content-Type": "application/json", "authtoken": b.Token},
-    ignoreSsl = true
+    ignoreSsl = true,
+    timeout = b.Timeout,
+    sslContext = nil
   )
 
   if res.ok():
@@ -42,7 +45,9 @@ proc DoPut*(b: var BaseHelper, urlPath: string, body: string): RequestResult =
     urlPath,
     headers = {"authtoken": b.Token},
     body = body,
-    ignoreSsl = true
+    ignoreSsl = true,
+    timeout = b.Timeout,
+    sslContext = nil
   )
 
   if res.ok():
