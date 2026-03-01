@@ -20,9 +20,9 @@ type VersionEndpoint* = object
 
 proc toVersionObject(node: JsonNode, doLogging: bool): VersionObject =
   if doLogging:
-    echo "toVersionObject ------"
+    echo "Version / toVersionObject ------"
     echo node
-    echo "-----------------------"
+    echo "--------------------------------"
 
   var res: VersionObject = VersionObject()
 
@@ -34,6 +34,10 @@ proc toVersionObject(node: JsonNode, doLogging: bool): VersionObject =
 # PUBLIC PROCS ---------------------------------------------------
 
 proc Get*(self: var VersionEndpoint): GetResult =
+  if self.Helper.DoLogging:
+    echo "Version / Get -------"
+    echo "---------------------"
+  
   var res = self.Helper.DoGet("/version")
 
   if res.Success:

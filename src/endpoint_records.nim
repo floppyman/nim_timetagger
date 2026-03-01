@@ -36,9 +36,9 @@ type RecordEndpoint* = object
 
 proc toRecordObjectSeq(node: JsonNode, doLogging: bool): seq[RecordObject] =
   if doLogging:
-    echo "toRecordObjectSeq ------"
+    echo "Records / toRecordObjectSeq ------"
     echo node
-    echo "------------------------"
+    echo "----------------------------------"
 
   var res: seq[RecordObject] = @[]
 
@@ -56,9 +56,9 @@ proc toRecordObjectSeq(node: JsonNode, doLogging: bool): seq[RecordObject] =
 
 proc toPutResultRaw(node: JsonNode, doLogging: bool): PutResultRaw =
   if doLogging:
-    echo "toPutResultRaw ------"
+    echo "Records / toPutResultRaw ------"
     echo node
-    echo "---------------------"
+    echo "-------------------------------"
 
   var res = PutResultRaw(Accepted: @[], Failed: @[], Errors: @[])
 
@@ -77,6 +77,12 @@ proc toPutResultRaw(node: JsonNode, doLogging: bool): PutResultRaw =
 # PUBLIC PROCS ---------------------------------------------------
 
 proc Get*(self: var RecordEndpoint, startTime: int64, stopTime: int64): GetResult =
+  if self.Helper.DoLogging:
+    echo "Records / Get -------"
+    echo fmt"startTime: {$startTime}"
+    echo fmt"stopTime: {$stopTime}"
+    echo "---------------------"
+  
   var res = self.Helper.DoGet(fmt"/records?timerange={$startTime}-{$stopTime}")
   
   if res.Success:
@@ -95,6 +101,11 @@ proc Get*(self: var RecordEndpoint, startTime: int64, stopTime: int64): GetResul
 
 
 proc Put*(self: var RecordEndpoint, items: seq[RecordObject]): PutResult =
+  if self.Helper.DoLogging:
+    echo "Records / Put -------"
+    echo fmt"items: {$items}"
+    echo "---------------------"
+
   var res = self.Helper.DoPut("/records", toJson(items).getStr())
 
   if res.Success:

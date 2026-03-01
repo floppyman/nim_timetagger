@@ -1,6 +1,7 @@
 import std/httpclient
 import std/json
 import std/jsonutils
+import std/strformat
 import base
 
 # TYPES ----------------------------------------------------------
@@ -33,9 +34,9 @@ type SettingEndpoint* = object
 
 proc toSettingObjectSeq(node: JsonNode, doLogging: bool): seq[SettingObject] =
   if doLogging:
-    echo "toSettingObjectSeq ------"
+    echo "Settings / toSettingObjectSeq ------"
     echo node
-    echo "-------------------------"
+    echo "------------------------------------"
 
   var res: seq[SettingObject] = @[]
 
@@ -51,9 +52,9 @@ proc toSettingObjectSeq(node: JsonNode, doLogging: bool): seq[SettingObject] =
 
 proc toPutResultRaw(node: JsonNode, doLogging: bool): PutResultRaw =
   if doLogging:
-    echo "toPutResultRaw ------"
+    echo "Settings / toPutResultRaw ------"
     echo node
-    echo "---------------------"
+    echo "--------------------------------"
 
   var res = PutResultRaw(Accepted: @[], Failed: @[], Errors: @[])
 
@@ -72,6 +73,12 @@ proc toPutResultRaw(node: JsonNode, doLogging: bool): PutResultRaw =
 # PUBLIC PROCS ---------------------------------------------------
 
 proc Get*(self: var SettingEndpoint, startTime: int64, stopTime: int64): GetResult =
+  if self.Helper.DoLogging:
+    echo "Settings / Get -------"
+    echo fmt"startTime: {$startTime}"
+    echo fmt"stopTime: {$stopTime}"
+    echo "----------------------"
+
   var res = self.Helper.DoGet("/settings")
 
   if res.Success:
@@ -90,6 +97,11 @@ proc Get*(self: var SettingEndpoint, startTime: int64, stopTime: int64): GetResu
 
 
 proc Put*(self: var SettingEndpoint, items: seq[SettingObject]): PutResult =
+  if self.Helper.DoLogging:
+    echo "Settings / Put -------"
+    echo fmt"items: {$items}"
+    echo "----------------------"
+  
   var res = self.Helper.DoPut("/settings", toJson(items).getStr())
 
   if res.Success:

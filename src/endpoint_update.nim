@@ -26,9 +26,9 @@ type UpdateEndpoint* = object
 
 proc toUpdateObject(node: JsonNode, doLogging: bool): UpdateObject =
   if doLogging:
-    echo "toUpdateObject ------"
+    echo "Updates / toUpdateObject ------"
     echo node
-    echo "---------------------"
+    echo "-------------------------------"
 
   var res: UpdateObject = UpdateObject()
 
@@ -59,6 +59,11 @@ proc toUpdateObject(node: JsonNode, doLogging: bool): UpdateObject =
 # PUBLIC PROCS ---------------------------------------------------
 
 proc Get*(self: var UpdateEndpoint, since: int64): GetResult =
+  if self.Helper.DoLogging:
+    echo "Updates / Get -------"
+    echo fmt"since: {$since}"
+    echo "---------------------"
+  
   var res = self.Helper.DoGet(fmt"/updates?since={$since}")
 
   if res.Success:

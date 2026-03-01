@@ -1,3 +1,4 @@
+import std/strformat
 import base
 import endpoint_records as epRec
 import endpoint_settings as epSet
@@ -21,6 +22,14 @@ type TimeTaggerApiOptions* = object
 # PROCS ----------------------------------------------------------
 
 proc NewClient*(url: string, token: string, timeout: int = 20, doLogging: bool = false): TimeTaggerApiClient =
+  if doLogging:
+    echo "NewClient -------"
+    echo fmt"url: {url}"
+    echo fmt"token: {token}"
+    echo fmt"timeout: {timeout}"
+    echo fmt"doLogging: {doLogging}"
+    echo "-----------------"
+
   var helper = BaseHelper(
     Url: url, 
     Token: token, 

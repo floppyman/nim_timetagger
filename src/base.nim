@@ -27,11 +27,11 @@ proc DoGet*(b: var BaseHelper, urlPath: string): RequestResult =
     )
 
     if b.DoLogging:
-      echo "DoGet ------"
+      echo "Base / DoGet ------"
       echo res.status
       echo res.headers
       echo res.body()
-      echo "------------"
+      echo "-------------------"
 
     if is2xx(res.code) or is3xx(res.code):
       return RequestResult(
@@ -81,9 +81,11 @@ proc DoPut*(b: var BaseHelper, urlPath: string, body: string): RequestResult =
     )
 
     if b.DoLogging:
+      echo "Base / DoGet ------"
       echo res.status
       echo res.headers
       echo res.body()
+      echo "-------------------"
 
     if is2xx(res.code) or is3xx(res.code):
       return RequestResult(
