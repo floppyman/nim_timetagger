@@ -18,11 +18,12 @@ type TimeTaggerApiOptions* = object
 # ----------------------------------------------------------------
 # PROCS ----------------------------------------------------------
 
-proc NewClient*(url: string, token: string, timeout: int = 20): TimeTaggerApiClient =
+proc NewClient*(url: string, token: string, timeout: int = 20, doLogging: bool = false): TimeTaggerApiClient =
   var helper = BaseHelper(
     Url: url, 
     Token: token, 
-    Timeout: timeout
+    Timeout: timeout,
+    DoLogging: doLogging
   )
   
   return TimeTaggerApiClient(

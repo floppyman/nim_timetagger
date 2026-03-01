@@ -32,9 +32,15 @@ type RecordEndpoint* = object
 # ----------------------------------------------------------------
 # PRIVATE PROCS --------------------------------------------------
 
-proc toRecordObjectSeq(node: JsonNode): seq[RecordObject] =
+proc toRecordObjectSeq(node: JsonNode, doLogging: bool): seq[RecordObject] =
+  if doLogging:
+    echo "toRecordObjectSeq ------"
+    echo node
+    echo "------------------------"
+
   var res: seq[RecordObject] = @[]
-  for n in node.elems:
+
+  for n in node["records"].elems:
     res.add(RecordObject(
       Key: n["key"].getStr(""),
       StartTime: n["t1"].getInt(0),
@@ -46,7 +52,12 @@ proc toRecordObjectSeq(node: JsonNode): seq[RecordObject] =
   return res
 
 
-proc toPutResultRaw(node: JsonNode): PutResultRaw =
+proc toPutResultRaw(node: JsonNode, doLogging: bool): PutResultRaw =
+  if doLogging:
+    echo "toPutResultRaw ------"
+    echo node
+    echo "---------------------"
+
   var res = PutResultRaw(Accepted: @[], Failed: @[], Errors: @[])
 
   for accepted in node["accepted"].items:
@@ -63,25 +74,43 @@ proc toPutResultRaw(node: JsonNode): PutResultRaw =
 # ----------------------------------------------------------------
 # PUBLIC PROCS ---------------------------------------------------
 
-proc Get*(rep: var RecordEndpoint, startTime: int64, stopTime: int64): GetResult =
-  var res = rep.Helper.DoGet("/records?timerange=" & $startTime & "-" & $stopTime)
-  var ro = toRecordObjectSeq(parseJson(res.Res.body()))
+proc Get*(self: var RecordEndpoint, startTime: int64, stopTime: int64): GetResult =
+  var res = self.Helper.DoGet("/records?timerange=" & $startTime & "-" & $stopTime)
+  
+  if res.Success:
+    var ro = toRecordObjectSeq(parseJson(res.Res.body()), self.Helper.DoLogging)
+    return GetResult(
+      Success: res.Success,
+      Error: res.Error,
+      Records: ro
+    )
+
   return GetResult(
-    Success: res.Success,
-    Error: res.Error,
-    Records: ro
-  )
+      Success: res.Success,
+      Error: res.Error,
+      Records: @[]
+    )
 
 
-proc Put*(rep: var RecordEndpoint, items: seq[RecordObject]): PutResult =
-  var res = rep.Helper.DoPut("/records", "")
-  var ro = toPutResultRaw(parseJson(res.Res.body()))
+proc Put*(self: var RecordEndpoint, items: seq[RecordObject]): PutResult =
+  var res = self.Helper.DoPut("/records", "")
+
+  if res.Success:
+    var ro = toPutResultRaw(parseJson(res.Res.body()), self.Helper.DoLogging)
+    return PutResult(
+      Success: res.Success,
+      Error: res.Error,
+      Accepted: ro.Accepted,
+      Failed: ro.Failed,
+      Errors: ro.Errors
+    )
+
   return PutResult(
-    Success: res.Success,
-    Error: res.Error,
-    Accepted: ro.Accepted,
-    Failed: ro.Failed,
-    Errors: ro.Errors
-  )
+      Success: res.Success,
+      Error: res.Error,
+      Accepted: @[],
+      Failed: @[],
+      Errors: @[]
+    )
 
 # ----------------------------------------------------------------
