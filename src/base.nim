@@ -45,16 +45,24 @@ proc DoGet*(b: var BaseHelper, urlPath: string): RequestResult =
       Error: res.body,
       Res: res
     )
-  except HttpRequestError as hre:
+  except HttpRequestError:
+    let e = getCurrentException()
+    echo e.msg
+    echo e.trace
+
     return RequestResult(
       Success: false,
-      Error: hre.msg,
+      Error: e.msg,
       Res: nil
     )
-  except ProtocolError as pe:
+  except ProtocolError:
+    let e = getCurrentException()
+    echo e.msg
+    echo e.trace
+
     return RequestResult(
       Success: false,
-      Error: pe.msg,
+      Error: e.msg,
       Res: nil
     )
   finally:
@@ -89,16 +97,24 @@ proc DoPut*(b: var BaseHelper, urlPath: string, body: string): RequestResult =
       Error: res.body,
       Res: res
     )
-  except HttpRequestError as hre:
+  except HttpRequestError:
+    let e = getCurrentException()
+    echo e.msg
+    echo e.trace
+
     return RequestResult(
       Success: false,
-      Error: hre.msg,
+      Error: e.msg,
       Res: nil
     )
-  except ProtocolError as pe:
+  except ProtocolError:
+    let e = getCurrentException()
+    echo e.msg
+    echo e.trace
+
     return RequestResult(
       Success: false,
-      Error: pe.msg,
+      Error: e.msg,
       Res: nil
     )
   finally:
