@@ -28,8 +28,6 @@ type PutResult* = object of PutResultRaw
 
 type RecordEndpoint* = object
   Helper*: BaseHelper
-  Get*: proc(startTime: int64, stopTime: int64): GetResult
-  Put*: proc(items: seq[RecordObject]): PutResult
 
 # ----------------------------------------------------------------
 # PRIVATE PROCS --------------------------------------------------

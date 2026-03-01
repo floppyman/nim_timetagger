@@ -11,8 +11,6 @@ type BaseHelper* = object
   Url*: string
   Token*: string
   Timeout*: int
-  DoGet*: proc(urlPath: string): RequestResult
-  DoPut*: proc(urlPath: string, body: string): RequestResult
 
 # ----------------------------------------------------------------
 # PROCS ----------------------------------------------------------
