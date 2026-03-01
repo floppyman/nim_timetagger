@@ -21,6 +21,7 @@ type VersionEndpoint* = object
 proc toVersionObject(node: JsonNode, doLogging: bool): VersionObject =
   if doLogging:
     echo "Version / toVersionObject ------"
+    echo "jsonNode:"
     echo node
     echo "--------------------------------"
 

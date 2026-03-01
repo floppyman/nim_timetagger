@@ -1,4 +1,5 @@
 import std/httpclient
+import std/strformat
 
 # TYPES ----------------------------------------------------------
 
@@ -28,8 +29,10 @@ proc DoGet*(b: var BaseHelper, urlPath: string): RequestResult =
 
     if b.DoLogging:
       echo "Base / DoGet ------"
-      echo res.status
+      echo fmt"status: {res.status}"
+      echo "headers:"
       echo res.headers
+      echo "body:"
       echo res.body()
       echo "-------------------"
 
@@ -82,8 +85,10 @@ proc DoPut*(b: var BaseHelper, urlPath: string, body: string): RequestResult =
 
     if b.DoLogging:
       echo "Base / DoGet ------"
-      echo res.status
+      echo fmt"status: {res.status}"
+      echo "headers:"
       echo res.headers
+      echo "body:"
       echo res.body()
       echo "-------------------"
 

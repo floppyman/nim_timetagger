@@ -37,6 +37,7 @@ type RecordEndpoint* = object
 proc toRecordObjectSeq(node: JsonNode, doLogging: bool): seq[RecordObject] =
   if doLogging:
     echo "Records / toRecordObjectSeq ------"
+    echo "jsonNode:"
     echo node
     echo "----------------------------------"
 
@@ -57,6 +58,7 @@ proc toRecordObjectSeq(node: JsonNode, doLogging: bool): seq[RecordObject] =
 proc toPutResultRaw(node: JsonNode, doLogging: bool): PutResultRaw =
   if doLogging:
     echo "Records / toPutResultRaw ------"
+    echo "jsonNode:"
     echo node
     echo "-------------------------------"
 

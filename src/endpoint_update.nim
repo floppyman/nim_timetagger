@@ -27,6 +27,7 @@ type UpdateEndpoint* = object
 proc toUpdateObject(node: JsonNode, doLogging: bool): UpdateObject =
   if doLogging:
     echo "Updates / toUpdateObject ------"
+    echo "jsonNode:"
     echo node
     echo "-------------------------------"
 

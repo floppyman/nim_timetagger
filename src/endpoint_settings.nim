@@ -35,6 +35,7 @@ type SettingEndpoint* = object
 proc toSettingObjectSeq(node: JsonNode, doLogging: bool): seq[SettingObject] =
   if doLogging:
     echo "Settings / toSettingObjectSeq ------"
+    echo "jsonNode:"
     echo node
     echo "------------------------------------"
 
@@ -53,6 +54,7 @@ proc toSettingObjectSeq(node: JsonNode, doLogging: bool): seq[SettingObject] =
 proc toPutResultRaw(node: JsonNode, doLogging: bool): PutResultRaw =
   if doLogging:
     echo "Settings / toPutResultRaw ------"
+    echo "jsonNode:"
     echo node
     echo "--------------------------------"
 
