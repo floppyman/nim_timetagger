@@ -1,6 +1,8 @@
 import std/httpclient
+import std/json
+import std/jsonutils
+import std/strformat
 import base
-import json
 
 # TYPES ----------------------------------------------------------
 
@@ -75,14 +77,14 @@ proc toPutResultRaw(node: JsonNode, doLogging: bool): PutResultRaw =
 # PUBLIC PROCS ---------------------------------------------------
 
 proc Get*(self: var RecordEndpoint, startTime: int64, stopTime: int64): GetResult =
-  var res = self.Helper.DoGet("/records?timerange=" & $startTime & "-" & $stopTime)
+  var res = self.Helper.DoGet(fmt"/records?timerange={$startTime}-{$stopTime}")
   
   if res.Success:
-    var ro = toRecordObjectSeq(parseJson(res.Res.body()), self.Helper.DoLogging)
+    var obj = toRecordObjectSeq(parseJson(res.Res.body()), self.Helper.DoLogging)
     return GetResult(
       Success: res.Success,
       Error: res.Error,
-      Records: ro
+      Records: obj
     )
 
   return GetResult(
@@ -93,16 +95,16 @@ proc Get*(self: var RecordEndpoint, startTime: int64, stopTime: int64): GetResul
 
 
 proc Put*(self: var RecordEndpoint, items: seq[RecordObject]): PutResult =
-  var res = self.Helper.DoPut("/records", "")
+  var res = self.Helper.DoPut("/records", toJson(items).getStr())
 
   if res.Success:
-    var ro = toPutResultRaw(parseJson(res.Res.body()), self.Helper.DoLogging)
+    var obj = toPutResultRaw(parseJson(res.Res.body()), self.Helper.DoLogging)
     return PutResult(
       Success: res.Success,
       Error: res.Error,
-      Accepted: ro.Accepted,
-      Failed: ro.Failed,
-      Errors: ro.Errors
+      Accepted: obj.Accepted,
+      Failed: obj.Failed,
+      Errors: obj.Errors
     )
 
   return PutResult(

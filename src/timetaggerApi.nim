@@ -2,6 +2,7 @@ import base
 import endpoint_records as epRec
 import endpoint_settings as epSet
 import endpoint_update as epUpd
+import endpoint_version as epVer
 
 # TYPES ----------------------------------------------------------
 
@@ -9,6 +10,7 @@ type TimeTaggerApiClient* = object
   Records*: epRec.RecordEndpoint
   Settings*: epSet.SettingEndpoint
   Updates*: epUpd.UpdateEndpoint
+  Version*: epUpd.VersionEndpoint
 
 type TimeTaggerApiOptions* = object
   Url*: string
@@ -29,7 +31,8 @@ proc NewClient*(url: string, token: string, timeout: int = 20, doLogging: bool =
   return TimeTaggerApiClient(
     Records: epRec.RecordEndpoint(Helper: helper),
     Settings: epSet.SettingEndpoint(Helper: helper),
-    Updates: epUpd.UpdateEndpoint(Helper: helper)
+    Updates: epUpd.UpdateEndpoint(Helper: helper),
+    Version: epVer.VersionEndpoint(Helper: helper)
   )
 
 # ----------------------------------------------------------------
