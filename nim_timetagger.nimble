@@ -1,6 +1,6 @@
 # Package
 
-version       = "2.3.0"
+version       = "2.3.1"
 author        = "floppyman"
 description   = "NIM Library to communicate with the TimeTagger API"
 license       = "MIT"

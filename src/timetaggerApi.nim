@@ -10,7 +10,7 @@ type TimeTaggerApiClient* = object
   Records*: epRec.RecordEndpoint
   Settings*: epSet.SettingEndpoint
   Updates*: epUpd.UpdateEndpoint
-  Version*: epUpd.VersionEndpoint
+  Version*: epVer.VersionEndpoint
 
 type TimeTaggerApiOptions* = object
   Url*: string
