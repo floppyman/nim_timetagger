@@ -18,12 +18,31 @@ type TimeTaggerApiOptions* = object
 # ----------------------------------------------------------------
 # PROCS ----------------------------------------------------------
 
-proc New*(options: TimeTaggerApiOptions): TimeTaggerApiClient =
-  var helper = BaseHelper(Url: options.Url, Token: options.Token, Timeout: options.Timeout)
+proc NewClient*(url: string, token: string, timeout: int = 20): TimeTaggerApiClient =
+  var helper = BaseHelper(
+    Url: url, 
+    Token: token, 
+    Timeout: timeout
+  )
+  
   return TimeTaggerApiClient(
     Records: epRec.RecordEndpoint(Helper: helper),
     Settings: epSet.SettingEndpoint(Helper: helper),
     Updates: epUpd.UpdateEndpoint(Helper: helper)
   )
+
+# ----------------------------------------------------------------
+# EXAMPLE
+
+# import timetaggerApi as api
+# import endpoint_records as apiRec
+
+# var x = api.NewClient("", "")
+
+# var g = x.Records.Get(0, 0)
+# echo g.Success
+
+# var p = x.Records.Put(@[apiRec.RecordObject(Key: "")])
+# echo p.Success
 
 # ----------------------------------------------------------------

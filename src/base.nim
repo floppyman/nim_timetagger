@@ -39,6 +39,18 @@ proc DoGet*(b: var BaseHelper, urlPath: string): RequestResult =
       Res: res,
       Error: res.body
     )
+  except HttpRequestError as hre:
+    return RequestResult(
+      Success: false,
+      Res: nil,
+      Error: hre.msg
+    )
+  except ProtocolError as pe:
+    return RequestResult(
+      Success: false,
+      Res: nil,
+      Error: pe.msg
+    )
   finally:
     client.close()
 
@@ -65,6 +77,18 @@ proc DoPut*(b: var BaseHelper, urlPath: string, body: string): RequestResult =
       Success: false,
       Res: res,
       Error: res.body
+    )
+  except HttpRequestError as hre:
+    return RequestResult(
+      Success: false,
+      Res: nil,
+      Error: hre.msg
+    )
+  except ProtocolError as pe:
+    return RequestResult(
+      Success: false,
+      Res: nil,
+      Error: pe.msg
     )
   finally:
     client.close()
